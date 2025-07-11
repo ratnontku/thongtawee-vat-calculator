@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VAT Calculator for Gold Products</title>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, button {
+      padding: 10px;
+      width: 100%;
+      margin: 8px 0;
+    }
+    table {
+      margin-top: 20px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>VAT Calculator for Gold Products</h2>
+
+  <label>ราคาสินค้า (Product Price):</label>
+  <input type="number" id="fullPrice" placeholder="Enter product price" />
+
+  <label>ราคารับซื้อทองประจำวัน (Gold Base Price):</label>
+  <input type="number" id="goldPrice" placeholder="Enter gold base price manually" />
+
+  <button onclick="fetchGoldPrice()">📥 Get Gold Price Automatically</button>
+  <button onclick="calculateVAT()">✅ Calculate VAT</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>รายการ</th>
+        <th>มูลค่า (บาท)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ราคาสินค้ารวมค่ากำเหน็จก่อนภาษี</td>
+        <td id="preVatPrice">-</td>
+      </tr>
+      <tr>
+        <td>ราคารับซื้อทองประจำวัน</td>
+        <td id="goldBasePrice">-</td>
+      </tr>
+      <tr>
+        <td>ส่วนต่างที่คิดภาษีมูลค่าเพิ่ม</td>
+        <td id="priceDif">-</td>
+      </tr>
+      <tr>
+        <td>ภาษีมูลค่าเพิ่ม</td>
+        <td id="vat">-</td>
+      </tr>
+      <tr>
+        <td>ราคาสุทธิ</td>
+        <td id="fullPriceResult">-</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    function calculateVAT() {
+      const fullPrice = parseFloat(document.getElementById("fullPrice").value);
+      const goldPrice = parseFloat(document.getElementById("goldPrice").value);
+
+      if (isNaN(fullPrice) || isNaN(goldPrice)) {
+        alert("Please enter valid numbers for both product price and gold base price.");
+        return;
+      }
+
+      const preVatPrice = (100 * fullPrice + 7 * goldPrice) / 107;
+      const priceDif = preVatPrice - goldPrice;
+      const vat = priceDif * 0.07;
+
+      // Display results
+      document.getElementById("preVatPrice").textContent = preVatPrice.toFixed(2);
+      document.getElementById("goldBasePrice").textContent = goldPrice.toFixed(2);
+      document.getElementById("priceDif").textContent = priceDif.toFixed(2);
+      document.getElementById("vat").textContent = vat.toFixed(2);
+      document.getElementById("fullPriceResult").textContent = fullPrice.toFixed(2);
+    }
+
+    function fetchGoldPrice() {
+      alert("This function will be added next — to fetch gold price from https://www.goldtraders.or.th/");
+      // We’ll implement this in the next stage using web scraping or APIs
+    }
+  </script>
+
+</body>
+</html>
