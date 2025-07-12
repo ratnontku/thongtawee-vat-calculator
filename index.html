@@ -15,21 +15,32 @@
       width: 100%;
       margin: 8px 0;
     }
-    button.quick-weight {
-      width: 48%;
-      margin-right: 4%;
-      margin-bottom: 8px;
+
+    .quick-weight-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 8px 0;
     }
+
+    .quick-weight {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+    }
+
     table {
       margin-top: 20px;
       width: 100%;
       border-collapse: collapse;
     }
+
     th, td {
       border: 1px solid #ddd;
       padding: 8px;
       text-align: left;
     }
+
     th {
       background-color: #f4f4f4;
     }
@@ -48,12 +59,14 @@
   <label>น้ำหนักทอง (Gold Weight in Grams):</label>
   <input type="number" step="0.01" id="goldWeight" placeholder="Enter gold weight (e.g., 1.5)" />
 
-  <div style="margin-top: 8px;">
-    <label>เลือกน้ำหนักทองที่ใช้บ่อย:</label><br/>
-    <button type="button" class="quick-weight" onclick="setGoldWeight(1.9)">1.9g</button>
-    <button type="button" class="quick-weight" onclick="setGoldWeight(3.8)">3.8g</button>
-    <button type="button" class="quick-weight" onclick="setGoldWeight(7.6)">7.6g</button>
-    <button type="button" class="quick-weight" onclick="setGoldWeight(15.2)">15.2g</button>
+  <div>
+    <label>เลือกน้ำหนักทองที่ใช้บ่อย:</label>
+    <div class="quick-weight-row">
+      <button type="button" class="quick-weight" onclick="setGoldWeight(1.9)">1.9g</button>
+      <button type="button" class="quick-weight" onclick="setGoldWeight(3.8)">3.8g</button>
+      <button type="button" class="quick-weight" onclick="setGoldWeight(7.6)">7.6g</button>
+      <button type="button" class="quick-weight" onclick="setGoldWeight(15.2)">15.2g</button>
+    </div>
   </div>
 
   <button onclick="calculateVAT()">✅ Calculate VAT</button>
@@ -122,7 +135,6 @@
       const priceDif = preVatPrice - calGoldPrice;
       const vat = priceDif * 0.07;
 
-      // Display results
       document.getElementById("preVatPrice").textContent = preVatPrice.toFixed(2);
       document.getElementById("goldBasePrice").textContent = goldPrice.toFixed(2);
       document.getElementById("goldWeightDisplay").textContent = goldWeight.toFixed(2);
