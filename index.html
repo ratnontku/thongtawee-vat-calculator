@@ -15,6 +15,11 @@
       width: 100%;
       margin: 8px 0;
     }
+    button.quick-weight {
+      width: 48%;
+      margin-right: 4%;
+      margin-bottom: 8px;
+    }
     table {
       margin-top: 20px;
       width: 100%;
@@ -40,8 +45,23 @@
   <label>ราคารับซื้อทองประจำวัน (Gold Base Price):</label>
   <input type="number" id="goldPrice" placeholder="Enter gold base price manually" />
 
-  <button onclick="fetchGoldPrice()">📥 Get Gold Price Automatically</button>
+  <label>น้ำหนักทอง (Gold Weight in Grams):</label>
+  <input type="number" step="0.01" id="goldWeight" placeholder="Enter gold weight (e.g., 1.5)" />
+
+  <div style="margin-top: 8px;">
+    <label>เลือกน้ำหนักทองที่ใช้บ่อย:</label><br/>
+    <button type="button" class="quick-weight" onclick="setGoldWeight(1.9)">1.9g</button>
+    <button type="button" class="quick-weight" onclick="setGoldWeight(3.8)">3.8g</button>
+    <button type="button" class="quick-weight" onclick="setGoldWeight(7.6)">7.6g</button>
+    <button type="button" class="quick-weight" onclick="setGoldWeight(15.2)">15.2g</button>
+  </div>
+
   <button onclick="calculateVAT()">✅ Calculate VAT</button>
+
+  <p>
+    👉 ดูราคาฐานภาษีทองได้ที่ 
+    <a href="https://www.goldtraders.or.th/" target="_blank">goldtraders.or.th</a>
+  </p>
 
   <table>
     <thead>
@@ -60,6 +80,14 @@
         <td id="goldBasePrice">-</td>
       </tr>
       <tr>
+        <td>น้ำหนักทอง (กรัม)</td>
+        <td id="goldWeightDisplay">-</td>
+      </tr>
+      <tr>
+        <td>มูลค่าทองตามน้ำหนัก</td>
+        <td id="calGoldPrice">-</td>
+      </tr>
+      <tr>
         <td>ส่วนต่างที่คิดภาษีมูลค่าเพิ่ม</td>
         <td id="priceDif">-</td>
       </tr>
@@ -75,30 +103,33 @@
   </table>
 
   <script>
+    function setGoldWeight(weight) {
+      document.getElementById("goldWeight").value = weight;
+    }
+
     function calculateVAT() {
       const fullPrice = parseFloat(document.getElementById("fullPrice").value);
       const goldPrice = parseFloat(document.getElementById("goldPrice").value);
+      const goldWeight = parseFloat(document.getElementById("goldWeight").value);
 
-      if (isNaN(fullPrice) || isNaN(goldPrice)) {
-        alert("Please enter valid numbers for both product price and gold base price.");
+      if (isNaN(fullPrice) || isNaN(goldPrice) || isNaN(goldWeight)) {
+        alert("Please enter valid numbers for product price, gold base price, and gold weight.");
         return;
       }
 
-      const preVatPrice = (100 * fullPrice + 7 * goldPrice) / 107;
-      const priceDif = preVatPrice - goldPrice;
+      const calGoldPrice = goldPrice * (goldWeight / 15.2);
+      const preVatPrice = (100 * fullPrice + 7 * calGoldPrice) / 107;
+      const priceDif = preVatPrice - calGoldPrice;
       const vat = priceDif * 0.07;
 
       // Display results
       document.getElementById("preVatPrice").textContent = preVatPrice.toFixed(2);
       document.getElementById("goldBasePrice").textContent = goldPrice.toFixed(2);
+      document.getElementById("goldWeightDisplay").textContent = goldWeight.toFixed(2);
+      document.getElementById("calGoldPrice").textContent = calGoldPrice.toFixed(2);
       document.getElementById("priceDif").textContent = priceDif.toFixed(2);
       document.getElementById("vat").textContent = vat.toFixed(2);
       document.getElementById("fullPriceResult").textContent = fullPrice.toFixed(2);
-    }
-
-    function fetchGoldPrice() {
-      alert("This function will be added next — to fetch gold price from https://www.goldtraders.or.th/");
-      // We’ll implement this in the next stage using web scraping or APIs
     }
   </script>
 
