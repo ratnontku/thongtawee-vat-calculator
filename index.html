@@ -143,7 +143,10 @@
     <input type="number" id="fullPrice" placeholder="Enter product price" />
 
     <label>ราคารับซื้อทองประจำวัน (Gold Base Price):</label>
-    <input type="number" id="goldPrice" placeholder="Auto-loaded from goldtraders.or.th" />
+<div style="display: flex; gap: 10px;">
+  <input type="number" id="goldPrice" placeholder="Auto-loaded from goldtraders.or.th" style="flex: 1;" />
+  <button onclick="fetchGoldPrice()" style="padding: 10px; background: #2196F3; color: white; border: none; border-radius: 6px; cursor: pointer;">🔁</button>
+</div>
 
     <label>น้ำหนักทอง (Gold Weight in Grams):</label>
     <input type="number" step="0.01" id="goldWeight" placeholder="Enter gold weight (e.g., 1.5)" />
