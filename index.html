@@ -1,119 +1,212 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
+  <meta charset="UTF-8">
   <title>VAT Calculator for Gold Products</title>
-  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       padding: 20px;
+      margin: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
       max-width: 600px;
       margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
-    input, button {
-      padding: 10px;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+
+    input {
       width: 100%;
-      margin: 8px 0;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
     }
 
     .quick-weight-row {
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
       gap: 10px;
-      margin: 8px 0;
+      margin: 10px 0;
     }
 
     .quick-weight {
-      flex: 1;
+      flex: 1 1 22%;
+      background-color: #e0e0e0;
+      border: none;
       padding: 10px;
       font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .quick-weight:hover {
+      background-color: #ccc;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .calculate-btn {
+      flex: 1;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .calculate-btn:hover {
+      background-color: #45a049;
+    }
+
+    .clear-btn {
+      flex: 1;
+      background-color: #e53935;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .clear-btn:hover {
+      background-color: #d32f2f;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
 
     table {
       margin-top: 20px;
       width: 100%;
       border-collapse: collapse;
+      font-size: 15px;
     }
 
     th, td {
       border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
+      padding: 10px;
     }
 
     th {
-      background-color: #f4f4f4;
+      background-color: #f0f0f0;
+      text-align: left;
+    }
+
+    @media (max-width: 500px) {
+      .quick-weight {
+        flex: 1 1 48%;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h2>VAT Calculator for Gold Products</h2>
+  <div class="container">
+    <h2>VAT Calculator for Gold Products</h2>
 
-  <label>ราคาสินค้า (Product Price):</label>
-  <input type="number" id="fullPrice" placeholder="Enter product price" />
+    <label>ราคาสินค้า (Product Price):</label>
+    <input type="number" id="fullPrice" placeholder="Enter product price" />
 
-  <label>ราคารับซื้อทองประจำวัน (Gold Base Price):</label>
-  <input type="number" id="goldPrice" placeholder="Enter gold base price manually" />
+    <label>ราคารับซื้อทองประจำวัน (Gold Base Price):</label>
+    <input type="number" id="goldPrice" placeholder="Enter gold base price manually" />
 
-  <label>น้ำหนักทอง (Gold Weight in Grams):</label>
-  <input type="number" step="0.01" id="goldWeight" placeholder="Enter gold weight (e.g., 1.5)" />
+    <label>น้ำหนักทอง (Gold Weight in Grams):</label>
+    <input type="number" step="0.01" id="goldWeight" placeholder="Enter gold weight (e.g., 1.5)" />
 
-  <div>
-    <label>เลือกน้ำหนักทองที่ใช้บ่อย:</label>
-    <div class="quick-weight-row">
-      <button type="button" class="quick-weight" onclick="setGoldWeight(1.9)">1.9g</button>
-      <button type="button" class="quick-weight" onclick="setGoldWeight(3.8)">3.8g</button>
-      <button type="button" class="quick-weight" onclick="setGoldWeight(7.6)">7.6g</button>
-      <button type="button" class="quick-weight" onclick="setGoldWeight(15.2)">15.2g</button>
+    <div>
+      <label>เลือกน้ำหนักทองที่ใช้บ่อย:</label>
+      <div class="quick-weight-row">
+        <button type="button" class="quick-weight" onclick="setGoldWeight(1.9)">1.9g</button>
+        <button type="button" class="quick-weight" onclick="setGoldWeight(3.8)">3.8g</button>
+        <button type="button" class="quick-weight" onclick="setGoldWeight(7.6)">7.6g</button>
+        <button type="button" class="quick-weight" onclick="setGoldWeight(15.2)">15.2g</button>
+      </div>
     </div>
+
+    <div class="btn-row">
+      <button class="calculate-btn" onclick="calculateVAT()">✅ Calculate VAT</button>
+      <button class="clear-btn" onclick="clearForm()">🧹 Clear</button>
+    </div>
+
+    <p style="margin-top: 15px;">
+      👉 ดูราคาฐานภาษีทองได้ที่ 
+      <a href="https://www.goldtraders.or.th/" target="_blank">goldtraders.or.th</a>
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>รายการ</th>
+          <th>มูลค่า (บาท)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ราคาสินค้ารวมค่ากำเหน็จก่อนภาษี</td>
+          <td id="preVatPrice">-</td>
+        </tr>
+        <tr>
+          <td>ราคารับซื้อทองประจำวัน</td>
+          <td id="goldBasePrice">-</td>
+        </tr>
+        <tr>
+          <td>น้ำหนักทอง (กรัม)</td>
+          <td id="goldWeightDisplay">-</td>
+        </tr>
+        <tr>
+          <td>มูลค่าทองตามน้ำหนัก</td>
+          <td id="calGoldPrice">-</td>
+        </tr>
+        <tr>
+          <td>ส่วนต่างที่คิดภาษีมูลค่าเพิ่ม</td>
+          <td id="priceDif">-</td>
+        </tr>
+        <tr>
+          <td>ภาษีมูลค่าเพิ่ม</td>
+          <td id="vat">-</td>
+        </tr>
+        <tr>
+          <td>ราคาสุทธิ</td>
+          <td id="fullPriceResult">-</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <button onclick="calculateVAT()">✅ Calculate VAT</button>
-
-  <p>
-    👉 ดูราคาฐานภาษีทองได้ที่ 
-    <a href="https://www.goldtraders.or.th/" target="_blank">goldtraders.or.th</a>
-  </p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>รายการ</th>
-        <th>มูลค่า (บาท)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>ราคาสินค้ารวมค่ากำเหน็จก่อนภาษี</td>
-        <td id="preVatPrice">-</td>
-      </tr>
-      <tr>
-        <td>ราคารับซื้อทองประจำวัน</td>
-        <td id="goldBasePrice">-</td>
-      </tr>
-      <tr>
-        <td>น้ำหนักทอง (กรัม)</td>
-        <td id="goldWeightDisplay">-</td>
-      </tr>
-      <tr>
-        <td>มูลค่าทองตามน้ำหนัก</td>
-        <td id="calGoldPrice">-</td>
-      </tr>
-      <tr>
-        <td>ส่วนต่างที่คิดภาษีมูลค่าเพิ่ม</td>
-        <td id="priceDif">-</td>
-      </tr>
-      <tr>
-        <td>ภาษีมูลค่าเพิ่ม</td>
-        <td id="vat">-</td>
-      </tr>
-      <tr>
-        <td>ราคาสุทธิ</td>
-        <td id="fullPriceResult">-</td>
-      </tr>
-    </tbody>
-  </table>
 
   <script>
     function setGoldWeight(weight) {
@@ -142,6 +235,20 @@
       document.getElementById("priceDif").textContent = priceDif.toFixed(2);
       document.getElementById("vat").textContent = vat.toFixed(2);
       document.getElementById("fullPriceResult").textContent = fullPrice.toFixed(2);
+    }
+
+    function clearForm() {
+      document.getElementById("fullPrice").value = "";
+      document.getElementById("goldPrice").value = "";
+      document.getElementById("goldWeight").value = "";
+
+      document.getElementById("preVatPrice").textContent = "-";
+      document.getElementById("goldBasePrice").textContent = "-";
+      document.getElementById("goldWeightDisplay").textContent = "-";
+      document.getElementById("calGoldPrice").textContent = "-";
+      document.getElementById("priceDif").textContent = "-";
+      document.getElementById("vat").textContent = "-";
+      document.getElementById("fullPriceResult").textContent = "-";
     }
   </script>
 
