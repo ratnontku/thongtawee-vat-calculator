@@ -218,7 +218,7 @@
         .then(res => res.json())
         .then(data => {
           if (data.goldPrice) {
-            document.getElementById("goldPrice").value = data.goldPrice;
+            goldPrice = data.goldPrice;
           } else {
             alert("ไม่สามารถโหลดราคาทองได้");
           }
