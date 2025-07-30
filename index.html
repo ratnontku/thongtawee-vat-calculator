@@ -214,20 +214,27 @@
 
   <script>
     function fetchGoldPrice() {
-      fetch("https://gold-price-api-cn8l.onrender.com/gold-price")
-        .then(res => res.json())
-        .then(data => {
-          if (data.goldPrice) {
-            goldPrice = data.goldPrice;
-          } else {
-            alert("ไม่สามารถโหลดราคาทองได้");
-          }
-        })
-        .catch(err => {
-          console.error("Error loading gold price:", err);
-          alert("เกิดข้อผิดพลาดในการโหลดราคาทอง");
-        });
-    }
+  fetch("https://gold-price-api-cn8l.onrender.com/gold-price")
+    .then(response => response.json())
+    .then(data => {
+      console.log("Gold Price API Response:", data); // ✅ Debug log
+
+      if (data.goldPrice && !isNaN(data.goldPrice)) {
+        // ✅ If valid price, set it into the input
+        document.getElementById("goldPrice").value = data.goldPrice;
+      } else if (data.error) {
+        // ✅ If server returned error
+        alert("ไม่สามารถโหลดราคาทองได้:\n" + data.error);
+      } else {
+        // ✅ Fallback if data format unexpected
+        alert("เกิดข้อผิดพลาด: ไม่พบข้อมูลราคาทอง");
+      }
+    })
+    .catch(error => {
+      console.error("Network or Fetch Error:", error); // ✅ Log for debugging
+      alert("เกิดข้อผิดพลาดในการโหลดราคาทอง (ตรวจสอบอินเทอร์เน็ตหรือ API)");
+    });
+}
 
     function setGoldWeight(weight) {
       document.getElementById("goldWeight").value = weight;
