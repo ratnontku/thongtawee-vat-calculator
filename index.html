@@ -144,7 +144,7 @@
 
     <label>ราคารับซื้อทองประจำวัน (Gold Base Price):</label>
 <div style="display: flex; gap: 10px;">
-  <input type="number" id="goldPrice" placeholder="Auto-loaded from goldtraders.or.th" style="flex: 1;" />
+  <input type="number" id="goldBarBuyPrice" placeholder="Auto-loaded from goldtraders.or.th" style="flex: 1;" />
   <button onclick="fetchGoldPrice()" style="padding: 10px; background: #2196F3; color: white; border: none; border-radius: 6px; cursor: pointer;">🔁</button>
 </div>
 
@@ -219,9 +219,9 @@
     .then(data => {
       console.log("Gold Price API Response:", data); // ✅ Debug log
 
-      if (data.goldPrice && !isNaN(data.goldPrice)) {
+      if (data.goldBarBuyPrice && !isNaN(data.goldBarBuyPrice)) {
         // ✅ If valid price, set it into the input
-        document.getElementById("goldPrice").value = data.goldPrice;
+        document.getElementById("goldBarBuyPrice").value = data.goldBarBuyPrice;
       } else if (data.error) {
         // ✅ If server returned error
         alert("ไม่สามารถโหลดราคาทองได้:\n" + data.error);
@@ -242,21 +242,21 @@
 
     function calculateVAT() {
       const fullPrice = parseFloat(document.getElementById("fullPrice").value);
-      const goldPrice = parseFloat(document.getElementById("goldPrice").value);
+      const goldBarBuyPrice = parseFloat(document.getElementById("goldBarBuyPrice").value);
       const goldWeight = parseFloat(document.getElementById("goldWeight").value);
 
-      if (isNaN(fullPrice) || isNaN(goldPrice) || isNaN(goldWeight)) {
+      if (isNaN(fullPrice) || isNaN(goldBarBuyPrice) || isNaN(goldWeight)) {
         alert("Please enter valid numbers for product price, gold base price, and gold weight.");
         return;
       }
 
-      const calGoldPrice = goldPrice * (goldWeight / 15.2);
+      const calGoldPrice = goldBarBuyPrice * (goldWeight / 15.2);
       const preVatPrice = (100 * fullPrice + 7 * calGoldPrice) / 107;
       const priceDif = preVatPrice - calGoldPrice;
       const vat = priceDif * 0.07;
 
       document.getElementById("preVatPrice").textContent = preVatPrice.toFixed(2);
-      document.getElementById("goldBasePrice").textContent = goldPrice.toFixed(2);
+      document.getElementById("goldBasePrice").textContent = goldBarBuyPrice.toFixed(2);
       document.getElementById("goldWeightDisplay").textContent = goldWeight.toFixed(2);
       document.getElementById("calGoldPrice").textContent = calGoldPrice.toFixed(2);
       document.getElementById("priceDif").textContent = priceDif.toFixed(2);
@@ -266,7 +266,7 @@
 
     function clearForm() {
       document.getElementById("fullPrice").value = "";
-      document.getElementById("goldPrice").value = "";
+      document.getElementById("goldBarBuyPrice").value = "";
       document.getElementById("goldWeight").value = "";
 
       document.getElementById("preVatPrice").textContent = "-";
